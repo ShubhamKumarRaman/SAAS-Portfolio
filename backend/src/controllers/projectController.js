@@ -178,3 +178,20 @@ const deleteProject = async (req, res) => {
     }
 }
 
+//Featured Projects
+const getFeaturedProjects = async (req, res) => {
+    try {
+        const projects = await Project.find({ featured: true }).sort({ createdAt: -1 });
+
+        res.json({
+            success: true,
+            count: projects.length,
+            data: projects
+        })
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message
+        })
+    }
+}
