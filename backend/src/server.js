@@ -1,8 +1,10 @@
-const dotenv = require('dotenv')
-const connectDB = require('./config/db')
-const app = require('./app')
+const path = require('path');
+const dotenv = require('dotenv');
+const connectDB = require('./config/db');
+const app = require('./app');
 
-dotenv.config();
+// Load env vars from this folder (backend/src/.env)
+dotenv.config({ path: path.resolve(__dirname, '.env') });
 
 //Connect Database
 connectDB();
