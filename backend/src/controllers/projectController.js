@@ -93,3 +93,27 @@ const getProjects = async (req, res) => {
         })
     }
 }
+
+//Get single project
+const getProjectById = async (req, res) => {
+    try {
+        const project = await Project.findById(req.params.id);
+
+        if (!project) {
+            res.status(404).json({
+                success: false,
+                message: "Project not found"
+            })
+        }
+
+        res.json({
+            success: true,
+            data: project,
+        })
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message
+        })
+    }
+}
