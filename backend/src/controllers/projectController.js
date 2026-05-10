@@ -117,3 +117,37 @@ const getProjectById = async (req, res) => {
         })
     }
 }
+
+//Update Project
+const updateProject = async (req, res) => {
+    try {
+        const project = await Project.findById(req.params.id);
+
+        if (!project) {
+            res.status(404).json({
+                success: false,
+                message: "Project not found"
+            })
+        }
+
+        const updatedProject = await Project.findByIdAndUpdate(
+            req.params.id,
+            req.body,
+            {
+                new: true,
+                runValidators: true
+            }
+        );
+
+        res.json({
+            success: true,
+            message: "Project updated successfully",
+            data: updatedProject,
+        })
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message
+        })
+    }
+}
