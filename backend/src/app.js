@@ -6,6 +6,8 @@ const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 const rateLimit = require('express-rate-limit');
 
+const authRoutes = require('./routes/authRoutes');
+
 const { notFound, errorHandler } = require('./middleware/errorMiddleware')
 
 dotenv.config();
@@ -38,6 +40,9 @@ app.use(cookieParser());
 
 //logger
 app.use(morgan("dev"));
+
+//Routes
+app.use('/api/auth', authRoutes);
 
 //test Route
 app.get('/', (req, res) => {
