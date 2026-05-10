@@ -68,3 +68,25 @@ const loginUser = async (req, res) => {
         throw new Error(error.message);
     }
 }
+
+//Get profile
+const getUserProfile = async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id).select("-password");
+
+        if (!user) {
+            res.status(404);
+            throw new Error("User not found");
+        }
+
+        res.json({
+            success: true,
+            data: user,
+        })
+    } catch (error) {
+        res.status(500);
+        throw new Error(error.message);
+    }
+}
+
+module.exports = { registerUser, loginUser, getUserProfile };
