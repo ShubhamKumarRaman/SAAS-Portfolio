@@ -2,9 +2,16 @@ const User = require('../models/User')
 const generateToken = require('../utils/generateToken')
 
 //Register User
-const registerUser = async (req, res) => {
+const registerUser = async (req, res, next) => {
     try {
         const { name, email, password } = req.body;
+
+        if (!name || !email || !password) {
+            return res.status(400).json({
+                success: false,
+                message: "Name, email and password are required."
+            })
+        }
 
         //Check existing user
         const userExists = await User.findOne({ email });
@@ -33,18 +40,24 @@ const registerUser = async (req, res) => {
             }
         })
     } catch (error) {
-        res.status(500);
-        throw new Error(error.message);
+        next(error);
     }
 }
 
 //Login User
-const loginUser = async (req, res) => {
+const loginUser = async (req, res, next) => {
     try {
         const { email, password } = req.body;
 
+        if (!email || !password) {
+            return res.status(400).json({
+                success: false,
+                message: "Email and password are required."
+            })
+        }
+
         //Find user
-        const user = await User.findOne({ email });
+        const user = await User.findOne({ email }).select('+password');
 
         //Match password
         if (user && (await user.matchPassword(password))) {
@@ -61,22 +74,21 @@ const loginUser = async (req, res) => {
             })
         } else {
             res.status(401);
-            throw new Error("Invalid email or password");
+            return next(new Error("Invalid email or password"));
         }
     } catch (error) {
-        res.status(500);
-        throw new Error(error.message);
+        next(error);
     }
 }
 
 //Get profile
-const getUserProfile = async (req, res) => {
+const getUserProfile = async (req, res, next) => {
     try {
         const user = await User.findById(req.user.id).select("-password");
 
         if (!user) {
             res.status(404);
-            throw new Error("User not found");
+            return next(new Error("User not found"));
         }
 
         res.json({
@@ -84,8 +96,7 @@ const getUserProfile = async (req, res) => {
             data: user,
         })
     } catch (error) {
-        res.status(500);
-        throw new Error(error.message);
+        next(error);
     }
 }
 

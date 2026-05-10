@@ -14,23 +14,26 @@ const userSchema = new mongoose.Schema(
             unique: true,
             lowercase: true,
         },
+        password: {
+            type: String,
+            required: true,
+            minlength: 6,
+            select: false,
+        },
         role: {
             type: String,
             enum: ["admin", "user"],
-            default: "admin"
+            default: "user"
         }
     },
     { timestamps: true }
 )
 
 //Hash password before save
-userSchema.pre("save", async function (next) {
-    if (!this.isModified("password")) {
-        next();
-    }
+userSchema.pre("save", async function () {
+    if (!this.isModified("password")) return;
 
     const salt = await bcrypt.genSalt(10);
-
     this.password = await bcrypt.hash(this.password, salt);
 })
 
