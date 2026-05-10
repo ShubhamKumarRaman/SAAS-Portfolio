@@ -195,3 +195,12 @@ const getFeaturedProjects = async (req, res) => {
         })
     }
 }
+
+module.exports = {
+    createProject,
+    getProjects,
+    getProjectById,
+    updateProject,
+    deleteProject,
+    getFeaturedProjects
+}
