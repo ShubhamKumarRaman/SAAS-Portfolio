@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken')
 
+// Protect Routes
 const protect = async (req, res, next) => {
     let token;
     if (req.headers.authorization && req.headers.authorization.startsWith("Bearer")) {
@@ -8,7 +9,7 @@ const protect = async (req, res, next) => {
 
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-            req.user = decoded;
+            req.user = await User.findById(decoded.id).select("-password");
 
             next();
         } catch (error) {
@@ -22,4 +23,14 @@ const protect = async (req, res, next) => {
     }
 }
 
-module.exports = { protect };
+//Admin access
+const adminOnly = (req, res, next) => {
+    if (req.user && req.user.role === "admin") {
+        next();
+    } else {
+        res.status(403);
+        throw new Error("Admin access only");
+    }
+}
+
+module.exports = { protect, adminOnly };
