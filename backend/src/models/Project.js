@@ -45,11 +45,10 @@ const projectSchema = new mongoose.Schema(
 )
 
 //Auto Generate Slug
-projectSchema.pre("save", function (next) {
+projectSchema.pre("save", function () {
     if (!this.slug) {
         this.slug = slugify(this.title, { lower: true, strict: true })
     }
-    next();
 })
 
 module.exports = mongoose.model("Project", projectSchema);

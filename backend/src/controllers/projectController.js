@@ -1,7 +1,7 @@
 const Project = require('../models/Project')
 
 //Create Project
-const createProject = async (req, res) => {
+const createProject = async (req, res, next) => {
     try {
         const project = await Project.create(req.body);
 
@@ -11,10 +11,7 @@ const createProject = async (req, res) => {
             data: project,
         })
     } catch (error) {
-        res.status(500).json({
-            success: false,
-            message: error.message
-        })
+        next(error);
     }
 }
 
@@ -171,7 +168,7 @@ const deleteProject = async (req, res) => {
             message: "Project deleted successfully",
         })
     } catch (error) {
-        res.status(500).josn({
+        res.status(500).json({
             success: false,
             message: error.message
         })
