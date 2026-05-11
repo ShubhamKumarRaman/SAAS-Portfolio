@@ -16,8 +16,6 @@ router.get('/', getSkills);
 //Admin Route
 router.post('/', protect, adminOnly, createSkill);
 
-router.put('/', protect, adminOnly, updateSkill);
-
 router.put('/:id', protect, adminOnly, updateSkill);
 
 router.delete('/:id', protect, adminOnly, deleteSkill);

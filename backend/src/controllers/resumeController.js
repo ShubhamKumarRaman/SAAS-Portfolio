@@ -6,7 +6,7 @@ const Resume = require('../models/Resume')
 const uploadResume = async (req, res) => {
     try {
         if (!req.file) {
-            res.status(400).json({
+            return res.status(400).json({
                 success: false,
                 message: "Resume file required"
             })

@@ -7,7 +7,7 @@ const createSkill = async (req, res) => {
 
         res.status(201).json({
             success: true,
-            messaged: "Skill created successfully",
+            message: "Skill created successfully",
             data: skill
         })
     } catch (error) {
@@ -51,7 +51,7 @@ const updateSkill = async (req, res) => {
         )
 
         if (!skill) {
-            res.status(404).json({
+            return res.status(404).json({
                 success: false,
                 message: "Skill not found"
             })
@@ -76,7 +76,7 @@ const deleteSkill = async (req, res) => {
         const skill = await Skill.findById(req.params.id);
 
         if (!skill) {
-            res.status(404).json({
+            return res.status(404).json({
                 success: false,
                 message: "Skill not found"
             })
