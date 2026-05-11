@@ -5,7 +5,14 @@ const sendEmail = require('../services/emailService')
 //Create contact message
 const createContactMessage = async (req, res) => {
     try {
-        const { name, email, message } = req.body;
+        const { name, email, message } = req.body || {};
+
+        if (!name || !email || !message) {
+            return res.status(400).json({
+                success: false,
+                message: 'name, email, and message are required',
+            });
+        }
 
         //Save message
         const newMessage = await Message.create({ name, email, message });
@@ -17,14 +24,14 @@ const createContactMessage = async (req, res) => {
             message: `
             <strong>Name:</strong> ${name}<br/>
             <strong>Email:</strong> ${email}<br/>
-            <strong>Message:</Strong><br/>
+            <strong>Message:</strong><br/>
             ${message}
             `
         })
 
         res.status(201).json({
             success: true,
-            message: "Message send successfully",
+            message: "Message sent successfully",
             data: newMessage,
         })
     } catch (error) {

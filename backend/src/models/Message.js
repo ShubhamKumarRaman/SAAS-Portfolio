@@ -14,8 +14,13 @@ const messageSchema = new mongoose.Schema(
         },
         message: {
             type: String,
+            required: true,
+            trim: true,
+        },
+        status: {
+            type: String,
             enum: ["unread", "read"],
-            default: "unread"
+            default: "unread",
         }
     }, { timestamps: true }
 );
