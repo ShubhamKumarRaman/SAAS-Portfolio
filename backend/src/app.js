@@ -8,6 +8,8 @@ const rateLimit = require('express-rate-limit');
 
 const authRoutes = require('./routes/authRoutes');
 const projectRoutes = require('./routes/projectRoutes')
+const skillRoutes = require('./routes/skillRoutes')
+const resumeRoutes = require('./routes/resumeRoutes');
 
 const { notFound, errorHandler } = require('./middleware/errorMiddleware')
 
@@ -45,6 +47,8 @@ app.use(morgan("dev"));
 //Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/projects', projectRoutes);
+app.use('/api/skills', skillRoutes);
+app.use('/api/resume', resumeRoutes);
 
 //test Route
 app.get('/', (req, res) => {
