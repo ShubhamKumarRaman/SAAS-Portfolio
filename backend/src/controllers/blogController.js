@@ -199,3 +199,12 @@ const togglePublishBlog = async (req, res) => {
         })
     }
 }
+
+module.exports = {
+    createBlog,
+    getBlogs,
+    getBlogBySlug,
+    updateBlog,
+    deleteBlog,
+    togglePublishBlog
+}
