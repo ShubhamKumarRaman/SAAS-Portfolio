@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const slugify = require('slugify')
-const { marked } = require('slugify')
+const { marked } = require('marked')
 
 const blogSchema = new mongoose.Schema(
     {
@@ -36,17 +36,20 @@ const blogSchema = new mongoose.Schema(
 )
 
 //Generate Slug and render markdown
-blogSchema.pre("save", function (next) {
-    //Slug
-    this.slug = slugify(this.title, {
-        lower: true,
-        strict: true
-    })
+blogSchema.pre("save", function () {
+    // Slug
+    if (this.isModified('title')) {
+        this.slug = slugify(this.title, {
+            lower: true,
+            strict: true
+        })
+    }
 
-    //markdown to HTML
-    this.renderedContent = marked(this.content);
+    // Markdown -> HTML
+    if (this.isModified('content')) {
+        this.renderedContent = marked.parse(this.content ?? '')
+    }
 
-    next();
 })
 
 module.exports = mongoose.model("Blog", blogSchema);

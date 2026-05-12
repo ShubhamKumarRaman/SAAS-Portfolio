@@ -7,7 +7,7 @@ const createBlog = async (req, res) => {
 
         res.status(201).json({
             success: true,
-            message: "Blog created successfylly",
+            message: "Blog created successfully",
             data: blog
         })
     } catch (error) {
@@ -36,13 +36,13 @@ const getBlogs = async (req, res) => {
             }
             : {};
 
-        //Publishd Filter
-        const publishFilter = req.query.published === "true"
-            ? { published: true }
-            : {};
-
+        //Published Filter
+        const publishFilter =
+            typeof req.query.published !== "undefined"
+                ? { published: req.query.published === "true" }
+                : {};
         // Tag Filter
-        const tagFilter = req.query.tagFilter
+        const tagFilter = req.query.tag
             ? {
                 tags: {
                     $in: [req.query.tag]
@@ -88,7 +88,7 @@ const getBlogs = async (req, res) => {
 };
 
 //Get Single Blog
-const { getBlogBySlug } = async (req, res) => {
+const getBlogBySlug = async (req, res) => {
     try {
         const blog = await Blog.findOne({
             slug: req.params.slug
@@ -100,6 +100,11 @@ const { getBlogBySlug } = async (req, res) => {
                 message: "Blog not found"
             })
         }
+
+        return res.json({
+            success: true,
+            data: blog,
+        })
     } catch (error) {
         res.status(500).json({
             success: false,
@@ -189,7 +194,7 @@ const togglePublishBlog = async (req, res) => {
 
         res.json({
             success: true,
-            message: blogPublished ? "Blog Published" : "Blog unpublished",
+            message: blog.published ? "Blog Published" : "Blog unpublished",
             data: blog
         })
     } catch (error) {
