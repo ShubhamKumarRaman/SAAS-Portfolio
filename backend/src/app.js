@@ -11,6 +11,7 @@ const projectRoutes = require('./routes/projectRoutes')
 const skillRoutes = require('./routes/skillRoutes')
 const resumeRoutes = require('./routes/resumeRoutes');
 const contactRoutes = require('./routes/contactRoutes')
+const blogRoutes = require('./routes/blogRoutes');
 
 const { notFound, errorHandler } = require('./middleware/errorMiddleware')
 
@@ -51,6 +52,7 @@ app.use('/api/projects', projectRoutes);
 app.use('/api/skills', skillRoutes);
 app.use('/api/resume', resumeRoutes);
 app.use('/api/contact', contactRoutes);
+app.use('/api/blogs', blogRoutes);
 
 //test Route
 app.get('/', (req, res) => {
