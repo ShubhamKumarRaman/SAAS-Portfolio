@@ -86,3 +86,24 @@ const getBlogs = async (req, res) => {
         })
     }
 };
+
+//Get Single Blog
+const { getBlogBySlug } = async (req, res) => {
+    try {
+        const blog = await Blog.findOne({
+            slug: req.params.slug
+        });
+
+        if (!blog) {
+            return res.status(404).json({
+                success: false,
+                message: "Blog not found"
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message
+        })
+    }
+}
