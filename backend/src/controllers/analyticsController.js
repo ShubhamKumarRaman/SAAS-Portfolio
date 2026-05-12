@@ -75,3 +75,83 @@ const getDashboardStats = async (req, res) => {
         })
     }
 };
+
+//Analytics Data
+const getAnalytics = async (req, res) => {
+    try {
+        // Page views aggregation
+        const pageViews = await Analytics.aggregate([
+            {
+                $group: {
+                    _id: "$page",
+                    totalViews: {
+                        $sum: "$views",
+                    }
+                }
+            },
+            {
+                $sort: { totalViews: -1 }
+            }
+        ]);
+
+        //Daily Visitors
+        const dailyVisitors = await Analytics.aggregate([
+            {
+                $group: {
+                    _id: {
+                        $dateToString: {
+                            format: "%y-%m-%d",
+                            date: "$createdAt"
+                        }
+                    },
+                    visitors: {
+                        $sum: 1,
+                    }
+                }
+            },
+            {
+                $sort: { _id: 1 }
+            }
+        ])
+
+        //Top Referrers
+        const topReferrers = await Analytics.aggregate([
+            {
+                $group: {
+                    _id: "$referrer",
+                    cont: {
+                        $sum: 1,
+                    }
+                }
+            },
+            {
+                $sort: {
+                    cont: -1,
+                }
+            },
+            {
+                slimit: 10,
+            }
+        ]);
+
+        res.json({
+            success: true,
+            data: {
+                pageViews,
+                dailyVisitors,
+                topReferrers
+            }
+        })
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message,
+        })
+    }
+}
+
+module.exports = {
+    trackVisitor,
+    getDashboardStats,
+    getAnalytics,
+}
