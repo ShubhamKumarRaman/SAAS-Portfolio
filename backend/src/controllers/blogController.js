@@ -107,3 +107,40 @@ const { getBlogBySlug } = async (req, res) => {
         })
     }
 }
+
+//Update Blog
+const updateBlog = async (req, res) => {
+    try {
+        const blog = await Blog.findById(req.params.id);
+
+        if (!blog) {
+            return res.status(404).json({
+                success: false,
+                message: "Blog not found"
+            })
+        }
+
+        //Update Fields
+        blog.title = req.body.title || blog.title;
+        blog.content = req.body.content || blog.content;
+        blog.coverImage = req.body.coverImage || blog.coverImage;
+        blog.tags = req.body.tags || blog.tags;
+
+        if (typeof req.body.published !== "undefined") {
+            blog.published = req.body.published;
+        }
+
+        const updatedBlog = await blog.save();
+
+        res.json({
+            success: true,
+            message: "Blog updated successfully",
+            data: updatedBlog,
+        })
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message
+        })
+    }
+};
