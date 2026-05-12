@@ -170,3 +170,32 @@ const deleteBlog = async (req, res) => {
         })
     }
 }
+
+// Publish/unpublish blog
+const togglePublishBlog = async (req, res) => {
+    try {
+        const blog = await Blog.findById(req.params.id);
+
+        if (!blog) {
+            return res.status(404).json({
+                success: false,
+                message: "Blog not found"
+            })
+        }
+
+        blog.published = !blog.published;
+
+        await blog.save();
+
+        res.json({
+            success: true,
+            message: blogPublished ? "Blog Published" : "Blog unpublished",
+            data: blog
+        })
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message
+        })
+    }
+}
