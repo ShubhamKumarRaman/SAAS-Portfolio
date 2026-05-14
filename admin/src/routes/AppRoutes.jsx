@@ -3,6 +3,7 @@ import Login from '../pages/Login'
 import DashboardLayout from '../layouts/DashboardLayout'
 import Dashboard from '../pages/Dashboard'
 import { AnimatePresence, motion } from 'framer-motion'
+import ProtectedRoute from '../components/routes/ProtectedRoute'
 
 const AppRoutes = () => {
     return (
@@ -51,9 +52,11 @@ const AnimatedRoutes = () => {
                             exit="exit"
                             transition={{ duration: 0.25, ease: 'easeOut' }}
                         >
-                            <DashboardLayout>
-                                <Dashboard />
-                            </DashboardLayout>
+                            <ProtectedRoute>
+                                <DashboardLayout>
+                                    <Dashboard />
+                                </DashboardLayout>
+                            </ProtectedRoute>
                         </motion.div>
                     }
                 />
