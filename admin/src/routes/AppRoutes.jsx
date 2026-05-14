@@ -1,28 +1,63 @@
-import React from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom'
 import Login from '../pages/Login'
 import DashboardLayout from '../layouts/DashboardLayout'
 import Dashboard from '../pages/Dashboard'
+import { AnimatePresence, motion } from 'framer-motion'
 
 const AppRoutes = () => {
     return (
         <BrowserRouter>
-            <Routes>
-
-                <Route path='/' element={<Login />} />
-
-                <Route
-                    path='/dashboard'
-                    element={
-                        <DashboardLayout>
-                            <Dashboard />
-                        </DashboardLayout>
-                    }
-                />
-
-            </Routes>
+            <AnimatedRoutes />
         </BrowserRouter>
     )
 }
 
 export default AppRoutes;
+
+const AnimatedRoutes = () => {
+    const location = useLocation()
+
+    const pageVariants = {
+        initial: { opacity: 0, y: 12 },
+        animate: { opacity: 1, y: 0 },
+        exit: { opacity: 0, y: -8 },
+    }
+
+    return (
+        <AnimatePresence mode="wait" initial={false}>
+            <Routes location={location} key={location.pathname}>
+                <Route
+                    path='/'
+                    element={
+                        <motion.div
+                            variants={pageVariants}
+                            initial="initial"
+                            animate="animate"
+                            exit="exit"
+                            transition={{ duration: 0.25, ease: 'easeOut' }}
+                        >
+                            <Login />
+                        </motion.div>
+                    }
+                />
+
+                <Route
+                    path='/dashboard'
+                    element={
+                        <motion.div
+                            variants={pageVariants}
+                            initial="initial"
+                            animate="animate"
+                            exit="exit"
+                            transition={{ duration: 0.25, ease: 'easeOut' }}
+                        >
+                            <DashboardLayout>
+                                <Dashboard />
+                            </DashboardLayout>
+                        </motion.div>
+                    }
+                />
+            </Routes>
+        </AnimatePresence>
+    )
+}

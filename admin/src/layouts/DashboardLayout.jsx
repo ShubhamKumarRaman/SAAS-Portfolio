@@ -1,20 +1,19 @@
-import React from 'react'
 import Sidebar from '../components/ui/Sidebar'
 import Navbar from '../components/ui/Navbar'
 
-const DashboardLayout = () => {
+const DashboardLayout = ({ children }) => {
     return (
-        <div>
+        <div className="min-h-dvh bg-slate-950">
+            <div className="mx-auto flex min-h-dvh w-full max-w-screen-2xl flex-col md:flex-row">
+                <Sidebar />
 
-            <Sidebar />
+                <div className="flex min-w-0 flex-1 flex-col">
+                    <Navbar />
 
-            <div>
-                <Navbar />
-
-                <div>
-                    {children}
+                    <main className="min-w-0 flex-1 p-4 sm:p-6 lg:p-8">
+                        {children}
+                    </main>
                 </div>
-
             </div>
         </div>
     )
