@@ -104,16 +104,39 @@ const Login = () => {
                         </motion.div>
 
                         <motion.button
-                            variants={{
-                                hidden: { opacity: 0, y: 10 },
-                                show: { opacity: 1, y: 0, transition: { duration: 0.3, ease: 'easeOut' } },
-                            }}
                             type="submit"
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
-                            className="w-full rounded-xl bg-white/10 px-4 py-2.5 text-sm font-semibold text-slate-100 ring-1 ring-white/10 transition hover:bg-white/15"
+                            variants={{
+                                hidden: { opacity: 0, y: 20, scale: 0.95 },
+                                show: {
+                                    opacity: 1,
+                                    y: 0,
+                                    scale: 1,
+                                    transition: {
+                                        duration: 0.5,
+                                        ease: "easeOut",
+                                    },
+                                },
+                            }}
+                            whileHover={{
+                                scale: 1.05,
+                                y: -2,
+                                boxShadow: "0 0 25px rgba(255,255,255,0.15)",
+                                transition: { duration: 0.3 },
+                            }}
+                            whileTap={{
+                                scale: 0.96,
+                            }}
+                            className="relative w-full overflow-hidden rounded-xl bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-4 py-3 text-sm font-semibold text-white shadow-lg transition-all duration-300"
                         >
-                            Login
+                            {/* Animated shine effect */}
+                            <motion.span
+                                className="absolute inset-0 bg-white/20"
+                                initial={{ x: "-100%" }}
+                                whileHover={{ x: "100%" }}
+                                transition={{ duration: 0.8, ease: "easeInOut" }}
+                            />
+
+                            <span className="relative z-10">Login</span>
                         </motion.button>
                     </motion.form>
                 </motion.div>
