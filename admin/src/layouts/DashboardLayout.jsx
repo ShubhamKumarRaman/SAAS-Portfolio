@@ -1,5 +1,5 @@
-import Sidebar from '../components/ui/Sidebar'
-import Navbar from '../components/ui/Navbar'
+import Sidebar from "../components/layout/Sidebar"
+import Topbar from "../components/layout/Topbar"
 
 const DashboardLayout = ({ children }) => {
     return (
@@ -8,7 +8,7 @@ const DashboardLayout = ({ children }) => {
                 <Sidebar />
 
                 <div className="flex min-w-0 flex-1 flex-col">
-                    <Navbar />
+                    <Topbar />
 
                     <main className="min-w-0 flex-1 p-4 sm:p-6 lg:p-8">
                         {children}
