@@ -32,10 +32,25 @@ const limiter = rateLimit({
 app.use(limiter);
 
 //Cors
-app.use(cors({
-    origin: "*",
-    credentials: true
-}));
+const allowedOrigins = (process.env.CLIENT_URL || 'http://localhost:5173')
+    .split(',')
+    .map((value) => value.trim())
+    .filter(Boolean);
+
+const corsOptions = {
+    origin: (origin, callback) => {
+        // Allow non-browser clients (curl, Postman) with no Origin header
+        if (!origin) return callback(null, true);
+        if (allowedOrigins.includes(origin)) return callback(null, true);
+        return callback(new Error(`CORS blocked for origin: ${origin}`));
+    },
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+};
+
+app.use(cors(corsOptions));
+app.options(/.*/, cors(corsOptions));
 
 //Body parser
 app.use(express.json());
