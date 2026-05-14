@@ -1,9 +1,65 @@
 import DashboardCard from '../components/ui/DashboardCard'
 import { motion } from 'framer-motion'
+import StatsCard from '../components/analytics/StatsCard'
+import VisitorsChart from '../components/analytics/VisitorsChart'
+import ProjectsChart from '../components/analytics/ProjectsChart'
+import AnalyticsTable from '../components/analytics/AnalyticsTable'
+import { Activity, Eye, FolderKanban, Mail } from 'lucide-react'
 
 const Dashboard = () => {
     return (
         <div className="space-y-6">
+            {/* Header */}
+
+            <div>
+                <h1>
+                    Dashboard Analytics
+                </h1>
+
+                <p>
+                    Monitor portfolio performance & insights
+                </p>
+            </div>
+
+            {/* Stats */}
+            <div>
+                <StatsCard
+                    title="Visitors"
+                    value="12.4K"
+                    growth="18"
+                    icon={<Eye />}
+                />
+
+                <StatsCard
+                    title="Projects"
+                    value="24"
+                    growth="12"
+                    icon={<FolderKanban />}
+                />
+
+                <StatsCard
+                    title="Messages"
+                    value="89"
+                    growth="9"
+                    icon={<Mail />}
+                />
+
+                <StatsCard
+                    title="Engagement"
+                    value="76%"
+                    growth="14"
+                    icon={<Activity />}
+                />
+            </div>
+
+            {/* Charts */}
+            <div>
+                <VisitorsChart />
+                <ProjectsChart />
+            </div>
+
+            {/* Table */}
+            <AnalyticsTable />
             <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
