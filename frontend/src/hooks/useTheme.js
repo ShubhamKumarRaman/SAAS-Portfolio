@@ -1,7 +1,8 @@
-import useThemeStore from '../store/useThemeStore'
+import { useContext } from "react";
+import { ThemeContext } from "../context/ThemeContext";
 
 const useTheme = () => {
-    return useThemeStore()
-}
+    return useContext(ThemeContext);
+};
 
-export default useTheme
+export default useTheme;
