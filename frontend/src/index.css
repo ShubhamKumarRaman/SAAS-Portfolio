@@ -29,3 +29,13 @@ body {
   background: #475569;
   border-radius: 10px;
 }
+
+.dark{
+  background:#020617;
+  color:white;
+}
+
+.light{
+  background:white;
+  color:black;
+}
