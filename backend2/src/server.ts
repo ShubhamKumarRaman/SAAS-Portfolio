@@ -36,6 +36,8 @@ app.get('/api/health', (req, res) => {
     })
 })
 
+app.use('/api/auth', require('./routes/authRoutes').default);
+
 //Database Connection
 const connectDB = async () => {
     try {
